@@ -13,7 +13,7 @@
         android:hint="Email"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="290dp"
         android:background="@drawable/edit_text_background"
         android:inputType="textEmailAddress"
         android:paddingLeft="20dp"
@@ -53,6 +53,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
         app:layout_constraintVertical_bias="0.092" />
+
+    <TextView
+        android:id="@+id/newAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create a new account"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/send"
+        app:layout_constraintVertical_bias="0.054" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

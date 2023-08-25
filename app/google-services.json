@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "802350314299",
+    "project_id": "funchat-3ff6d",
+    "storage_bucket": "funchat-3ff6d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:802350314299:android:e6b94709d34f0dfd823d1e",
+        "android_client_info": {
+          "package_name": "com.example.funchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "802350314299-sk5ap848t2net8556hs8ifdhc5bi7s7d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2TP5DQaRxH8ILxk0nOX6mZK-nj3gz-ZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "802350314299-sk5ap848t2net8556hs8ifdhc5bi7s7d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
