@@ -4,9 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract.CommonDataKinds.Email
+import android.text.InputFilter.LengthFilter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
@@ -36,15 +40,25 @@ class MainActivity : AppCompatActivity() {
             val email = email.text.toString()
             val password = password.text.toString()
 
-            login(email,password);
+            mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task: Task<AuthResult?> ->
+                    if (task.isSuccessful) {
+                        val intent = Intent(this, home::class.java)
+                        startActivity(intent)
+
+                    } else {
+                        val text = "Acoount Does Not Exist"
+                        val duration = Toast.LENGTH_SHORT
+
+                        val toast = Toast.makeText(this, text, duration)
+                        toast.show()
+                    }
+                }
 
         }
 
 
         }
 
-    private fun login (email: String, password : String){
-
-    }
 
     }
