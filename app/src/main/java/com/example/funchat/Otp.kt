@@ -5,19 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var send : Button
+class Otp : AppCompatActivity() {
+    private lateinit var button : Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_otp)
 
-        send = findViewById(R.id.send)
+        button = findViewById(R.id.sendOtp)
 
-        send.setOnClickListener{
-            val intent = Intent(this, Otp::class.java)
+        button.setOnClickListener{
+            val intent = Intent(this, home::class.java)
             startActivity(intent)
         }
-        }
-
     }
+}
