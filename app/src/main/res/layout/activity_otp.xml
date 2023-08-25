@@ -9,13 +9,30 @@
 
 
     <EditText
+        android:id="@+id/name"
+        android:hint="Name"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="240dp"
+        android:background="@drawable/edit_text_background"
+        android:inputType="phone"
+        android:paddingLeft="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
         android:id="@+id/email"
         android:hint="Email"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="300dp"
         android:background="@drawable/edit_text_background"
-        android:inputType="textEmailAddress"
+        android:inputType="phone"
         android:paddingLeft="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,7 +48,7 @@
         android:layout_height="45dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/edit_text_background"
-        android:inputType="textPassword"
+        android:inputType="phone"
         android:paddingLeft="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
