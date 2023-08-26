@@ -5,10 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 
 class Otp : AppCompatActivity() {
     private lateinit var button : Button
@@ -17,6 +21,7 @@ class Otp : AppCompatActivity() {
     private lateinit var password : EditText
 
     private lateinit var mAuth : FirebaseAuth
+    private lateinit var mDbRef : DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +47,7 @@ class Otp : AppCompatActivity() {
                 .addOnCompleteListener { task: Task<AuthResult?> ->
                     if (task.isSuccessful) {
 
+                        addUserToDatabase(name,email,mAuth.currentUser?.uid!!)
                         val user = mAuth.currentUser
                         val profileUpdates = UserProfileChangeRequest.Builder()
                             .setDisplayName(name)
@@ -50,7 +56,8 @@ class Otp : AppCompatActivity() {
                         user?.updateProfile(profileUpdates)
                             ?.addOnCompleteListener { profileTask: Task<Void?> ->
                                 if (profileTask.isSuccessful) {
-                                    val intent = Intent(this, home::class.java)
+                                    val intent = Intent(this, Home::class.java)
+                                    finish()
                                     startActivity(intent)
 
                                 } else {
@@ -59,9 +66,18 @@ class Otp : AppCompatActivity() {
                                 }
                             }
                     } else {
+                        val text = "Please Enter Proper Details"
+                        val duration = Toast.LENGTH_SHORT
 
+                        val toast = Toast.makeText(this, text, duration)
+                        toast.show()
                     }
                 }
         }
+    }
+    private fun addUserToDatabase(name: String, email: String, uid: String){
+
+     mDbRef = FirebaseDatabase.getInstance().getReference()
+        mDbRef.child("user").child(uid).setValue(User(name,email, uid))
     }
 }

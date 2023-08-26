@@ -3,14 +3,9 @@ package com.example.funchat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class home : AppCompatActivity() {
-
+class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
-
-
-
-
+        setContentView(R.layout.activity_chat)
     }
 }
