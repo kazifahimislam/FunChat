@@ -27,12 +27,14 @@
         app:layout_constraintVertical_bias="1.0"
         tools:layout_editor_absoluteX="30dp">
         <EditText
+            android:id="@+id/messageBox"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="HELLO WORLD"
             android:layout_weight="100"/>
 
         <ImageButton
+            android:id="@+id/sendButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/logo"/>
