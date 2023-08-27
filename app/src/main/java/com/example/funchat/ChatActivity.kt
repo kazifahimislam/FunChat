@@ -3,6 +3,7 @@ package com.example.funchat
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +21,7 @@ class ChatActivity : AppCompatActivity() {
 
     private lateinit var chatRecyclerView: RecyclerView
     private lateinit var messageBox: EditText
-    private lateinit var sendButton: ImageButton
+    private lateinit var sendButton: Button
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var messageList: ArrayList<Message>
     private lateinit var mDbRef : DatabaseReference
