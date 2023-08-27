@@ -21,7 +21,7 @@ class LogInActivity : AppCompatActivity() {
     private lateinit var mAuth : FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
         send = findViewById(R.id.send)
         textview = findViewById(R.id.newAccount)

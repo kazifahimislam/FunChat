@@ -24,7 +24,7 @@ class SignUpActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_otp)
+        setContentView(R.layout.activity_signup)
 
         button = findViewById(R.id.sendOtp)
         name = findViewById(R.id.name)
