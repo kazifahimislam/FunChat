@@ -3,8 +3,6 @@ package com.example.funchat
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Email
-import android.text.InputFilter.LengthFilter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -43,7 +41,8 @@ class MainActivity : AppCompatActivity() {
             mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task: Task<AuthResult?> ->
                     if (task.isSuccessful) {
-                        val intent = Intent(this, home::class.java)
+                        val intent = Intent(this, Home::class.java)
+                        finish()
                         startActivity(intent)
 
                     } else {
