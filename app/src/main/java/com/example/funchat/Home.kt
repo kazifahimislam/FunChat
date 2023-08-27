@@ -3,8 +3,6 @@ package com.example.funchat
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
 import android.widget.PopupMenu
@@ -77,7 +75,7 @@ class Home : AppCompatActivity() {
             when (item.itemId) {
                 R.id.logout -> {
                     mAuth.signOut()
-                    val intent = Intent(this,MainActivity::class.java)
+                    val intent = Intent(this,LogInActivity::class.java)
                     startActivity(intent)
                     true
                 }

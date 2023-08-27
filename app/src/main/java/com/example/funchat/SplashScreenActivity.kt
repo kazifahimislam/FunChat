@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import com.google.firebase.auth.FirebaseAuth
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -29,7 +27,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 else -> Intent(this, Home::class.java)
             }
         } else {
-            Intent(this, MainActivity::class.java)
+            Intent(this, LogInActivity::class.java)
         }
 
         startActivity(intent)
