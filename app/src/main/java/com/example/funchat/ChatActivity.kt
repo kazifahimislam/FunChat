@@ -2,6 +2,7 @@ package com.example.funchat
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DiffUtil
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -54,8 +55,12 @@ class ChatActivity : AppCompatActivity() {
         messageList = ArrayList()
         messageAdapter = MessageAdapter(this, messageList)
 
+
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
         chatRecyclerView.adapter = messageAdapter
+
+        val layoutManager = chatRecyclerView.layoutManager as LinearLayoutManager
+        val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
 
         mDbRef.child("chats").child(senderRoom!!).child("messages")
             .addValueEventListener(object: ValueEventListener{
@@ -69,6 +74,8 @@ class ChatActivity : AppCompatActivity() {
                         messageList.add(message!!)
                     }
                     messageAdapter.notifyDataSetChanged()
+
+                    layoutManager.scrollToPositionWithOffset(lastVisiblePosition, 0)
                 }
 
                 override fun onCancelled(error: DatabaseError) {

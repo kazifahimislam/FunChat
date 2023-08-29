@@ -11,7 +11,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 
-class MainActivity : AppCompatActivity() {
+class LogInActivity : AppCompatActivity() {
 
     private lateinit var send : Button
     private lateinit var textview : TextView
@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mAuth : FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
         send = findViewById(R.id.send)
         textview = findViewById(R.id.newAccount)
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         textview.setOnClickListener{
-            val intent = Intent(this, Otp::class.java)
+            val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
         send.setOnClickListener{

@@ -12,9 +12,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.ktx.Firebase
 
-class Otp : AppCompatActivity() {
+class SignUpActivity : AppCompatActivity() {
     private lateinit var button : Button
     private lateinit var name : EditText
     private lateinit var email : EditText
@@ -25,7 +24,7 @@ class Otp : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_otp)
+        setContentView(R.layout.activity_signup)
 
         button = findViewById(R.id.sendOtp)
         name = findViewById(R.id.name)

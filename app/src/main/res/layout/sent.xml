@@ -9,10 +9,12 @@
 
     <LinearLayout
         android:layout_margin="10dp"
+        android:layout_marginLeft="150dp"
         android:layout_width="wrap_content"
+
         android:layout_height="wrap_content"
 
-        android:background="@drawable/edit_text_background"
+
 
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,13 +28,15 @@
             android:id="@+id/txt_sent_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue"
+
             android:gravity="end"
-            android:padding="10dp"
+            android:paddingLeft="19dp"
+            android:paddingRight="19dp"
 
             android:text="I am sender"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="17sp"
+            android:background="@drawable/send_message_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
