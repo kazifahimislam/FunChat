@@ -75,7 +75,12 @@ class ChatActivity : AppCompatActivity() {
                     }
                     messageAdapter.notifyDataSetChanged()
 
-                    layoutManager.scrollToPositionWithOffset(lastVisiblePosition, 0)
+                    if (messageList.isNotEmpty()) {
+                        val lastItemPosition = messageList.size - 1
+                        layoutManager.scrollToPositionWithOffset(lastItemPosition, 0)
+                    }
+
+
                 }
 
                 override fun onCancelled(error: DatabaseError) {

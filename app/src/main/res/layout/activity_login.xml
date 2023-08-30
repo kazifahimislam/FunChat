@@ -7,32 +7,26 @@
     android:padding="40dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="155dp"
-        android:layout_height="155dp"
-        app:cardBackgroundColor="@color/applogo"
-        app:cardCornerRadius="250dp"
-        app:layout_constraintBottom_toTopOf="@+id/email"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/logo_background"
+        android:gravity="center"
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.19">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
-            app:cardCornerRadius="250dp">
+            android:background="@drawable/logo" />
+    </LinearLayout>
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/applogo"
-                />
-
-        </androidx.cardview.widget.CardView>
-
-    </androidx.cardview.widget.CardView>
 
 
 
@@ -42,7 +36,7 @@
         android:hint="Email"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginTop="290dp"
+        android:layout_marginTop="200dp"
         android:background="@drawable/edit_text_background"
         android:inputType="textEmailAddress"
         android:paddingLeft="20dp"
@@ -83,17 +77,31 @@
         app:layout_constraintTop_toBottomOf="@+id/password"
         app:layout_constraintVertical_bias="0.092" />
 
+
     <TextView
         android:id="@+id/newAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create a new account"
-        android:textSize="16sp"
+        android:layout_marginEnd="84dp"
+        android:text="CREATE A NEW ACCOUNT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.211"
+        app:layout_constraintStart_toEndOf="@+id/imageButton"
+        app:layout_constraintTop_toBottomOf="@+id/send"
+        app:layout_constraintVertical_bias="0.058" />
+
+    <ImageButton
+        android:id="@+id/googleAuthentication"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/google"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/send"
-        app:layout_constraintVertical_bias="0.054" />
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
