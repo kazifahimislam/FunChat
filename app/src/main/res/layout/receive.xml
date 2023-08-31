@@ -8,8 +8,10 @@
 
 
     <LinearLayout
-        android:layout_margin="10dp"
-        android:layout_marginLeft="150dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="10dp"
+
+
         android:layout_width="wrap_content"
 
         android:layout_height="wrap_content"
@@ -25,11 +27,12 @@
         app:layout_constraintVertical_bias="0.0">
 
         <TextView
+            android:layout_marginEnd="90dp"
             android:id="@+id/txt_receive_message"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:gravity="end"
+
             android:paddingLeft="19dp"
             android:paddingRight="19dp"
 

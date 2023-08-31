@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -17,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import org.w3c.dom.Text
 
 class ChatActivity : AppCompatActivity() {
 
@@ -26,6 +30,8 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var messageList: ArrayList<Message>
     private lateinit var mDbRef : DatabaseReference
+   private lateinit var imageView: ImageView
+    private lateinit var textView: TextView
 
     var receiverRoom : String? = null
     var senderRoom : String? = null
@@ -33,6 +39,22 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+
+     imageView = findViewById(R.id.userPic)
+        textView = findViewById(R.id.txtProfile)
+
+        imageView.setOnClickListener{
+            val intent = Intent(this, UserProfile::class.java)
+            startActivity(intent)
+        }
+        textView.setOnClickListener{
+            val intent = Intent(this, UserProfile::class.java)
+            startActivity(intent)
+        }
+
+
+
+
 
 
         val name = intent.getStringExtra("name")
@@ -59,6 +81,9 @@ class ChatActivity : AppCompatActivity() {
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
         chatRecyclerView.adapter = messageAdapter
 
+
+
+
         val layoutManager = chatRecyclerView.layoutManager as LinearLayoutManager
         val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
 
@@ -75,7 +100,12 @@ class ChatActivity : AppCompatActivity() {
                     }
                     messageAdapter.notifyDataSetChanged()
 
-                    layoutManager.scrollToPositionWithOffset(lastVisiblePosition, 0)
+                    if (messageList.isNotEmpty()) {
+                        val lastItemPosition = messageList.size - 1
+                        layoutManager.scrollToPositionWithOffset(lastItemPosition, 0)
+                    }
+
+
                 }
 
                 override fun onCancelled(error: DatabaseError) {
