@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/profileToolBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/blue"
@@ -39,6 +39,7 @@
                 app:cardCornerRadius="250dp">
 
                 <ImageView
+                    android:id="@+id/userPic"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:scaleType="centerCrop"
@@ -50,21 +51,18 @@
 
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/txtProfile"
+            android:layout_width="match_parent"
+            android:layout_marginEnd="50dp"
+            android:layout_height="match_parent"
             android:text="User"
-            android:layout_marginLeft="100dp"
+
             android:textColor="@color/white"
             android:textStyle="bold"
+            android:gravity="center"
             android:textSize="20sp"/>
 
-        <ImageButton
-            android:id="@+id/logoutImageButton"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/img_2"
-            android:layout_gravity="right"/>
+
 
 
     </androidx.appcompat.widget.Toolbar>

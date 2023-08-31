@@ -14,11 +14,10 @@
         android:background="@drawable/logo_background"
         android:gravity="center"
 
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.19">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:layout_width="100dp"
@@ -28,25 +27,20 @@
     </LinearLayout>
 
 
-
-
-
     <EditText
         android:id="@+id/email"
-        android:hint="Email"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginBottom="404dp"
         android:background="@drawable/edit_text_background"
+        android:hint="Email"
         android:inputType="textEmailAddress"
         android:paddingLeft="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
 
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent" />
+
     <EditText
         android:id="@+id/password"
         android:hint="Password"
@@ -68,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/blue"
-        android:text="Send"
+        android:text="LOG IN"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,14 +76,13 @@
         android:id="@+id/newAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="84dp"
         android:text="CREATE A NEW ACCOUNT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.211"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
+
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/send"
-        app:layout_constraintVertical_bias="0.058" />
+        app:layout_constraintVertical_bias="0.089" />
 
     <ImageButton
         android:id="@+id/googleAuthentication"
@@ -98,7 +91,7 @@
         android:background="@drawable/google"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.044"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/send"
         app:layout_constraintVertical_bias="0.0" />
