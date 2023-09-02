@@ -21,8 +21,8 @@ import com.google.firebase.database.FirebaseDatabase
 class GoogleSignUp : AppCompatActivity() {
 
     private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var logIn : TextView
-    private lateinit var signUp : Button
+    private lateinit var logIn: TextView
+    private lateinit var signUp: Button
     private lateinit var mDbRef: DatabaseReference
     private lateinit var mAuth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +42,8 @@ class GoogleSignUp : AppCompatActivity() {
             startActivity(intent)
         }
 
+        mAuth = FirebaseAuth.getInstance()
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -54,11 +56,13 @@ class GoogleSignUp : AppCompatActivity() {
             signInGoogle()
         }
     }
-    private fun addUserToDatabase(name: String, email: String, uid: String){
 
-        mDbRef = FirebaseDatabase.getInstance().reference
-        mDbRef.child("user").child(uid).setValue(User(name,email, uid))
+    private fun addUserToDatabase(name: String, email: String, uid: String) {
+
+        mDbRef = FirebaseDatabase.getInstance().getReference()
+        mDbRef.child("user").child(uid).setValue(User(name, email, uid))
     }
+
     private fun signInGoogle() {
         val signInIntent = googleSignInClient.signInIntent
         launcher.launch(signInIntent)
@@ -77,13 +81,12 @@ class GoogleSignUp : AppCompatActivity() {
             val account: GoogleSignInAccount? = task.result
             if (account != null) {
                 updateUI(account)
+
             }
 
         } else
             Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
     }
-
-
 
     private fun updateUI(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
@@ -107,8 +110,5 @@ class GoogleSignUp : AppCompatActivity() {
                 Toast.makeText(this, authTask.exception.toString(), Toast.LENGTH_SHORT).show()
             }
         }
-
-
     }
-
 }
