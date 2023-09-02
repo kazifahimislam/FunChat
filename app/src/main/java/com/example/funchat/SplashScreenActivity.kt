@@ -36,7 +36,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 else -> Intent(this, Home::class.java)
             }
         } else {
-            Intent(this, LogInActivity::class.java)
+            Intent(this, GoogleSignUp::class.java)
         }
 
         startActivity(intent)

@@ -28,12 +28,12 @@ import com.google.firebase.database.FirebaseDatabase
 
 class LogInActivity : AppCompatActivity() {
 
-    private lateinit var send: Button
-    private lateinit var textview: TextView
+    private lateinit var logIn : Button
+    private lateinit var createANewAccount : TextView
     private lateinit var email: EditText
     private lateinit var password: EditText
-    private lateinit var auth: FirebaseAuth
-    private lateinit var googleSignInClient: GoogleSignInClient
+
+//    private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var mDbRef: DatabaseReference
 
     private lateinit var mAuth: FirebaseAuth
@@ -41,35 +41,18 @@ class LogInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-
-
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
-
-        findViewById<ImageButton>(R.id.googleAuthentication).setOnClickListener {
-            signInGoogle()
-        }
-
-
-
-        send = findViewById(R.id.send)
-        textview = findViewById(R.id.newAccount)
+        logIn = findViewById(R.id.logIn)
+        createANewAccount = findViewById(R.id.newAccount)
         email = findViewById(R.id.email)
         password = findViewById(R.id.password)
 
         mAuth = FirebaseAuth.getInstance()
 
-        textview.setOnClickListener {
+        createANewAccount.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
-        send.setOnClickListener {
+        logIn.setOnClickListener {
             val email = email.text.toString()
             val password = password.text.toString()
 
@@ -97,59 +80,59 @@ class LogInActivity : AppCompatActivity() {
     }
     private fun addUserToDatabase(name: String, email: String, uid: String){
 
-        mDbRef = FirebaseDatabase.getInstance().getReference()
+        mDbRef = FirebaseDatabase.getInstance().reference
         mDbRef.child("user").child(uid).setValue(User(name,email, uid))
     }
 
-    private fun signInGoogle() {
-        val signInIntent = googleSignInClient.signInIntent
-        launcher.launch(signInIntent)
-    }
-
-    private val launcher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                handleResults(task)
-            }
-        }
-
-    private fun handleResults(task: Task<GoogleSignInAccount>) {
-        if (task.isSuccessful) {
-            val account: GoogleSignInAccount? = task.result
-            if (account != null) {
-                updateUI(account)
-            }
-
-        } else
-            Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
-    }
-
-
-
-    private fun updateUI(account: GoogleSignInAccount) {
-        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-        mAuth.signInWithCredential(credential).addOnCompleteListener { authTask ->
-            if (authTask.isSuccessful) {
-                val currentUser = mAuth.currentUser
-                val uid = currentUser?.uid
-                val name = currentUser?.displayName
-                val email = currentUser?.email
-
-                // Add user to the database
-                if (uid != null && name != null && email != null) {
-                    addUserToDatabase(name, email, uid)
-                }
-
-                // Start Home activity
-                val intent = Intent(this, Home::class.java)
-                startActivity(intent)
-                finish()
-            } else {
-                Toast.makeText(this, authTask.exception.toString(), Toast.LENGTH_SHORT).show()
-            }
-        }
-
-
-    }
+//    private fun signInGoogle() {
+//        val signInIntent = googleSignInClient.signInIntent
+//        launcher.launch(signInIntent)
+//    }
+//
+//    private val launcher =
+//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//            if (result.resultCode == Activity.RESULT_OK) {
+//                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+//                handleResults(task)
+//            }
+//        }
+//
+//    private fun handleResults(task: Task<GoogleSignInAccount>) {
+//        if (task.isSuccessful) {
+//            val account: GoogleSignInAccount? = task.result
+//            if (account != null) {
+//                updateUI(account)
+//            }
+//
+//        } else
+//            Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
+//    }
+//
+//
+//
+//    private fun updateUI(account: GoogleSignInAccount) {
+//        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+//        mAuth.signInWithCredential(credential).addOnCompleteListener { authTask ->
+//            if (authTask.isSuccessful) {
+//                val currentUser = mAuth.currentUser
+//                val uid = currentUser?.uid
+//                val name = currentUser?.displayName
+//                val email = currentUser?.email
+//
+//                // Add user to the database
+//                if (uid != null && name != null && email != null) {
+//                    addUserToDatabase(name, email, uid)
+//                }
+//
+//                // Start Home activity
+//                val intent = Intent(this, Home::class.java)
+//                startActivity(intent)
+//                finish()
+//            } else {
+//                Toast.makeText(this, authTask.exception.toString(), Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//
+//
+//    }
 }
