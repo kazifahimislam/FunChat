@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +18,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.messaging.FirebaseMessaging
 
-class Home : AppCompatActivity() {
+class AllUsers : AppCompatActivity() {
     private lateinit var userRecyclerView: RecyclerView
     private lateinit var userList: ArrayList<User>
     private lateinit var adapter: UserAdapter
@@ -28,7 +27,7 @@ class Home : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        setContentView(R.layout.activity_all_users)
 
 
 
@@ -48,6 +47,9 @@ class Home : AppCompatActivity() {
 
      mAuth = FirebaseAuth.getInstance()
         mDbRef= FirebaseDatabase.getInstance().getReference()
+        mDbRef.keepSynced(true)
+
+
      userList = ArrayList()
         adapter = UserAdapter(this, userList)
 

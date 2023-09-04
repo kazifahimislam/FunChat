@@ -31,9 +31,9 @@ class SplashScreenActivity : AppCompatActivity() {
 
         val intent = if (currentUser != null) {
             when (lastActivity) {
-                "Home" -> Intent(this, Home::class.java)
+                "Home" -> Intent(this, AllUsers::class.java)
                 // Add more cases for other activities if needed
-                else -> Intent(this, Home::class.java)
+                else -> Intent(this, AllUsers::class.java)
             }
         } else {
             Intent(this, GoogleSignUp::class.java)

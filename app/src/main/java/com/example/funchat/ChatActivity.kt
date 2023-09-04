@@ -97,29 +97,15 @@ class ChatActivity : AppCompatActivity() {
         messageList = ArrayList()
         messageAdapter = MessageAdapter(this, messageList)
 
+//        chatRecyclerView.smoothScrollToPosition(0)
+
+
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
         chatRecyclerView.adapter = messageAdapter
 
         val layoutManager = chatRecyclerView.layoutManager as LinearLayoutManager
 
-        // Add a listener for changes in the keyboard's visibility
-        messageBox.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                val rect = Rect()
-                messageBox.getWindowVisibleDisplayFrame(rect)
-                val screenHeight = messageBox.height
-                val keypadHeight = screenHeight - rect.bottom
-                val isKeyboardOpen = keypadHeight > screenHeight * 0.15
 
-                if (isKeyboardOpen) {
-                    // The keyboard is open, handle this scenario if needed.
-                    // For example, you can refresh the chat list and scroll to the recent item.
-                } else {
-                    // The keyboard is closed, handle this scenario if needed.
-                    // For example, you can refresh the chat list and scroll to the recent item.
-                }
-            }
-        })
 
         mDbRef.child("chats").child(senderRoom!!).child("messages")
             .addValueEventListener(object: ValueEventListener {
@@ -132,31 +118,52 @@ class ChatActivity : AppCompatActivity() {
                     }
                     messageAdapter.notifyDataSetChanged()
 
-                    if (messageList.isNotEmpty()) {
+
                         val lastItemPosition = messageList.size - 1
                         layoutManager.scrollToPositionWithOffset(lastItemPosition, 0)
-                    }
+
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
 
-        sendButton.setOnClickListener {
-            val message = messageBox.text.toString()
-            val messageObject = Message(message, senderUid)
 
-            mDbRef.child("chats").child(senderRoom!!).child("messages").push()
-                .setValue(messageObject).addOnSuccessListener {
-                    mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
-                        .setValue(messageObject)
-                    if (isKeyboardOpen) {
-                        chatRecyclerView.postDelayed({
-                            chatRecyclerView.smoothScrollToPosition(messageAdapter.itemCount - 1)
-                        }, 100)
+        sendButton.setOnClickListener {
+            val message = messageBox.text.toString().trim() // Trim any leading or trailing spaces
+
+            if (message.isNotEmpty()) {
+                val senderUid = FirebaseAuth.getInstance().currentUser!!.uid
+                val receiverUid = intent.getStringExtra("uid")
+                val messageObject = Message(message, senderUid)
+
+                // Reference to the Firebase Realtime Database
+                val databaseReference = FirebaseDatabase.getInstance().reference
+
+                // Push the message to the "messages" node
+                val senderMessageRef = databaseReference.child("chats").child(senderRoom!!).child("messages").push()
+                val receiverMessageRef = databaseReference.child("chats").child(receiverRoom!!).child("messages").push()
+
+                // Set the message content
+                senderMessageRef.setValue(messageObject).addOnSuccessListener {
+                    receiverMessageRef.setValue(messageObject).addOnSuccessListener {
+                        // If the message is sent successfully, add the chat to recentChats
+                        if (receiverUid != null) {
+                            databaseReference.child("user").child(senderUid).child("recentChats").child(receiverUid).setValue(true)
+                        }
+                        if (receiverUid != null) {
+                            databaseReference.child("user").child(receiverUid).child("recentChats").child(senderUid).setValue(true)
+                        }
+
+
                     }
                 }
-            messageBox.setText("")
+
+                messageBox.setText("")
+            } else {
+                // Handle the case where the message is empty, e.g., show an error message to the user
+                // You can display a toast or a Snackbar to inform the user that the message is empty.
+            }
         }
     }
 }
