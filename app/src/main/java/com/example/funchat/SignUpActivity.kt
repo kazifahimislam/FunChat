@@ -63,43 +63,43 @@ class SignUpActivity : AppCompatActivity() {
             val password = password.text.toString()
             val name = name.text.toString()
 
-            mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { task: Task<AuthResult?> ->
-                    if (task.isSuccessful) {
-
-                        addUserToDatabase(name,email,mAuth.currentUser?.uid!!)
-                        val user = mAuth.currentUser
-                        val profileUpdates = UserProfileChangeRequest.Builder()
-                            .setDisplayName(name)
-                            .build()
-
-                        user?.updateProfile(profileUpdates)
-                            ?.addOnCompleteListener { profileTask: Task<Void?> ->
-                                if (profileTask.isSuccessful) {
-                                    val intent = Intent(this, Home::class.java)
-                                    finish()
-                                    startActivity(intent)
-
-                                } else {
-
-
-                                }
-                            }
-                    } else {
-                        val text = "Please Enter Proper Details"
-                        val duration = Toast.LENGTH_SHORT
-
-                        val toast = Toast.makeText(this, text, duration)
-                        toast.show()
-                    }
-                }
+//            mAuth.createUserWithEmailAndPassword(email, password)
+//                .addOnCompleteListener { task: Task<AuthResult?> ->
+//                    if (task.isSuccessful) {
+//
+//                        addUserToDatabase(name,email,mAuth.currentUser?.uid!!)
+//                        val user = mAuth.currentUser
+//                        val profileUpdates = UserProfileChangeRequest.Builder()
+//                            .setDisplayName(name)
+//                            .build()
+//
+//                        user?.updateProfile(profileUpdates)
+//                            ?.addOnCompleteListener { profileTask: Task<Void?> ->
+//                                if (profileTask.isSuccessful) {
+//                                    val intent = Intent(this, Home::class.java)
+//                                    finish()
+//                                    startActivity(intent)
+//
+//                                } else {
+//
+//
+//                                }
+//                            }
+//                    } else {
+//                        val text = "Please Enter Proper Details"
+//                        val duration = Toast.LENGTH_SHORT
+//
+//                        val toast = Toast.makeText(this, text, duration)
+//                        toast.show()
+//                    }
+//                }
         }
     }
-    private fun addUserToDatabase(name: String, email: String, uid: String){
-
-        mDbRef = FirebaseDatabase.getInstance().getReference()
-        mDbRef.child("user").child(uid).setValue(User(name,email, uid))
-    }
+//    private fun addUserToDatabase(name: String, email: String, uid: String){
+//
+//        mDbRef = FirebaseDatabase.getInstance().getReference()
+//        mDbRef.child("user").child(uid).setValue(User(name,email, uid))
+//    }
     private fun   signInGoogle(){
         val signInIntent = googleSignInClient.signInIntent
         launcher.launch(signInIntent)
@@ -132,17 +132,17 @@ class SignUpActivity : AppCompatActivity() {
                 val name = currentUser?.displayName
                 val email = currentUser?.email
 
-                // Add user to the database
-                if (uid != null && name != null && email != null) {
-                    addUserToDatabase(name, email, uid)
-                }
-
-                // Start Home activity
-                val intent = Intent(this, Home::class.java)
-                startActivity(intent)
-                finish()
-            } else {
-                Toast.makeText(this, authTask.exception.toString(), Toast.LENGTH_SHORT).show()
+//                // Add user to the database
+//                if (uid != null && name != null && email != null) {
+//                    addUserToDatabase(name, email, uid)
+//                }
+//
+//                // Start Home activity
+//                val intent = Intent(this, Home::class.java)
+//                startActivity(intent)
+//                finish()
+//            } else {
+//                Toast.makeText(this, authTask.exception.toString(), Toast.LENGTH_SHORT).show()
             }
         }
     }

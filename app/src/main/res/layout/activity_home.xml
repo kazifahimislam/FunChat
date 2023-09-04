@@ -30,7 +30,8 @@
             android:text="Fun Chat"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            />
 
         <ImageButton
             android:id="@+id/logoutImageButton"
