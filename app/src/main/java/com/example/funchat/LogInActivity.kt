@@ -78,10 +78,10 @@ class LogInActivity : AppCompatActivity() {
 
 
     }
-    private fun addUserToDatabase(name: String, email: String, uid: String){
+    private fun addUserToDatabase(name: String, email: String, uid: String, fcmToken: String , profilePicturUrl: String){
 
         mDbRef = FirebaseDatabase.getInstance().reference
-        mDbRef.child("user").child(uid).setValue(User(name,email, uid))
+        mDbRef.child("user").child(uid).setValue(User(name,email, uid, fcmToken ,profilePicturUrl ))
     }
 
 //    private fun signInGoogle() {

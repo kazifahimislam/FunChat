@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,8 @@ class Home : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+
 
 
 
@@ -91,7 +94,7 @@ class Home : AppCompatActivity() {
             when (item.itemId) {
                 R.id.logout -> {
                     mAuth.signOut()
-                    val intent = Intent(this,LogInActivity::class.java)
+                    val intent = Intent(this, GoogleSignUp::class.java)
                     startActivity(intent)
                     true
                 }
