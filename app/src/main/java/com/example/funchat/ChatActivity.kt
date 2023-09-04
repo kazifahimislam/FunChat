@@ -97,29 +97,15 @@ class ChatActivity : AppCompatActivity() {
         messageList = ArrayList()
         messageAdapter = MessageAdapter(this, messageList)
 
+//        chatRecyclerView.smoothScrollToPosition(0)
+
+
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
         chatRecyclerView.adapter = messageAdapter
 
         val layoutManager = chatRecyclerView.layoutManager as LinearLayoutManager
 
-        // Add a listener for changes in the keyboard's visibility
-        messageBox.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                val rect = Rect()
-                messageBox.getWindowVisibleDisplayFrame(rect)
-                val screenHeight = messageBox.height
-                val keypadHeight = screenHeight - rect.bottom
-                val isKeyboardOpen = keypadHeight > screenHeight * 0.15
 
-                if (isKeyboardOpen) {
-                    // The keyboard is open, handle this scenario if needed.
-                    // For example, you can refresh the chat list and scroll to the recent item.
-                } else {
-                    // The keyboard is closed, handle this scenario if needed.
-                    // For example, you can refresh the chat list and scroll to the recent item.
-                }
-            }
-        })
 
         mDbRef.child("chats").child(senderRoom!!).child("messages")
             .addValueEventListener(object: ValueEventListener {
@@ -132,10 +118,10 @@ class ChatActivity : AppCompatActivity() {
                     }
                     messageAdapter.notifyDataSetChanged()
 
-                    if (messageList.isNotEmpty()) {
+
                         val lastItemPosition = messageList.size - 1
                         layoutManager.scrollToPositionWithOffset(lastItemPosition, 0)
-                    }
+
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -169,11 +155,7 @@ class ChatActivity : AppCompatActivity() {
                             databaseReference.child("user").child(receiverUid).child("recentChats").child(senderUid).setValue(true)
                         }
 
-                        if (isKeyboardOpen) {
-                            chatRecyclerView.postDelayed({
-                                chatRecyclerView.smoothScrollToPosition(messageAdapter.itemCount - 1)
-                            }, 100)
-                        }
+
                     }
                 }
 
