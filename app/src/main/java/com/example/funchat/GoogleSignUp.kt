@@ -1,11 +1,9 @@
 package com.example.funchat
 
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -126,7 +124,7 @@ class GoogleSignUp : AppCompatActivity() {
                     }
 
                     // Start Home activity
-                    val intent = Intent(this, Home::class.java)
+                    val intent = Intent(this, AllUsers::class.java)
                     startActivity(intent)
                     finish()
                     // Log and toast
