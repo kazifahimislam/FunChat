@@ -12,11 +12,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
+import java.io.IOException
 
 class ChatActivity : AppCompatActivity() {
 
@@ -37,7 +46,13 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        val displayName = intent.getStringExtra("name")
+        val displayUserName = intent.getStringExtra("name")
+
+        val auth = FirebaseAuth.getInstance()
+        val currentUser: FirebaseUser? = auth.currentUser
+        val currentUsername = currentUser?.displayName.toString()
+
+
 
         val profilePictureUrl = intent.getStringExtra("profilePictureUrl")
         val profileImageView = findViewById<ImageView>(R.id.userPic)
@@ -47,7 +62,7 @@ class ChatActivity : AppCompatActivity() {
             .placeholder(R.drawable.img_4) // Placeholder image while loading
             .error(R.drawable.meerkat) // Error image if loading fails
             .into(profileImageView)
-        findViewById<TextView>(R.id.txtProfile).text =  displayName
+        findViewById<TextView>(R.id.txtProfile).text =  displayUserName
 
         FirebaseApp.initializeApp(this)
 
@@ -61,14 +76,14 @@ class ChatActivity : AppCompatActivity() {
             val intent = Intent(this, OtherUserPic::class.java)
 
 
-            intent.putExtra("name", displayName)
+            intent.putExtra("name", displayUserName)
             intent.putExtra("profilePictureUrl", profilePictureUrl)
 
             startActivity(intent)
         }
         textView.setOnClickListener{
             val intent = Intent(this, UserProfile::class.java)
-            intent.putExtra("name", displayName)
+            intent.putExtra("name", displayUserName)
             intent.putExtra("profilePictureUrl", profilePictureUrl)
 
             startActivity(intent)
@@ -76,6 +91,7 @@ class ChatActivity : AppCompatActivity() {
 
         val name = intent.getStringExtra("name")
         val receiverUid = intent.getStringExtra("uid")
+        val fcmToken = intent.getStringExtra("fcmToken")
         val senderUid = FirebaseAuth.getInstance().currentUser?.uid
         mDbRef = FirebaseDatabase.getInstance().getReference()
 
@@ -126,6 +142,7 @@ class ChatActivity : AppCompatActivity() {
             if (message.isNotEmpty()) {
                 val senderUid = FirebaseAuth.getInstance().currentUser!!.uid
                 val receiverUid = intent.getStringExtra("uid")
+
                 val messageObject = Message(message, senderUid)
 
                 // Reference to the Firebase Realtime Database
@@ -149,6 +166,7 @@ class ChatActivity : AppCompatActivity() {
 
                     }
                 }
+                sendNotificationToReceiver("$fcmToken","$currentUsername", "$message" )
 
                 messageBox.setText("")
             } else {
@@ -156,5 +174,48 @@ class ChatActivity : AppCompatActivity() {
                 // You can display a toast or a Snackbar to inform the user that the message is empty.
             }
         }
+    }
+    fun sendNotificationToReceiver(userToken: String, title: String, body: String) {
+        // Replace with your Firebase Cloud Messaging Server Key
+        val serverKey = "AAAAus_OMzs:APA91bFnC2TftpSTiZggKnKojj2YGKlSWkMMNer1MpBC_CLEitKQcPqpjcEPls-nnRo0TvAdsZnHInN2hyS7lJ0pletKgZa6QfIUg52v0duhnxZJwIO3kc4diOEJwlJyE60Tes-fWWe5"
+
+        // Define the content type
+        val contentType = "application/json; charset=utf-8".toMediaType()
+
+        // Create a JSON payload for the notification
+        val json = """
+    {
+        "to": "$userToken",
+        "notification": {
+            "title": "$title",
+            "body": "$body"
+        }
+    }
+    """.trimIndent()
+
+        // Create an HTTP request
+        val request = Request.Builder()
+            .url("https://fcm.googleapis.com/fcm/send")
+            .post(json.toRequestBody(contentType))
+            .addHeader("Authorization", "key=$serverKey")
+            .build()
+
+        // Create an OkHttpClient to execute the request
+        val client = OkHttpClient()
+
+        // Enqueue the request for asynchronous execution
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                // Handle the failure to send the notification
+                // You can log or display an error message
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                // Handle the response from the FCM server
+                // This block is called when the response is received
+                // You can add further handling if needed
+            }
+        })
     }
 }

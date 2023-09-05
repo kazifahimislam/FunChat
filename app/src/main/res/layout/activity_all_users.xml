@@ -79,8 +79,8 @@
         tools:listitem="@layout/user_layout" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
 
         app:cardCornerRadius="250dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -92,7 +92,7 @@
         <ImageView
             android:id="@+id/chatGpt"
             android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_height="65dp"
             android:background="@drawable/img_6"
             tools:layout_editor_absoluteX="305dp"
             tools:layout_editor_absoluteY="551dp"
