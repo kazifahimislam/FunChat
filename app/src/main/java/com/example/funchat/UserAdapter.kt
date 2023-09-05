@@ -41,6 +41,7 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>): Recycler
             intent.putExtra("name", currentUser.name)
             intent.putExtra("uid", currentUser.uid)
             intent.putExtra("profilePictureUrl", currentUser.profilePictureUrl)
+            intent.putExtra("fcmToken",currentUser.fcmToken)
             context.startActivity(intent)
         }
 
