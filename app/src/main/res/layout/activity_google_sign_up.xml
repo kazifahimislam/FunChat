@@ -135,6 +135,7 @@
             android:backgroundTint="@color/black"
             android:drawableLeft="@drawable/google1"
             android:text="Continue with Google"
+
             android:textColor="@color/white"/>
 
         <Button

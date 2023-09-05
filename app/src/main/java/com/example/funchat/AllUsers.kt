@@ -34,6 +34,24 @@ class AllUsers : AppCompatActivity() {
 
 
         FirebaseApp.initializeApp(this)
+
+        val chatGpt = findViewById<ImageView>(R.id.chatGpt)
+        chatGpt.setOnClickListener{
+            val intent = Intent(this, ChatGpt::class.java)
+            startActivity(intent)
+        }
+
+//        val userProfilePic = findViewById<ImageView>(R.id.userProfilePic)
+//        val currentUserPic = mAuth.currentUser!!.photoUrl.toString()
+//
+//        Glide.with(this)
+//            .load(currentUserPic)
+//            .placeholder(R.drawable.img_4) // Placeholder image while loading
+//            .error(R.drawable.meerkat) // Error image if loading fails
+//            .into(userProfilePic)
+//
+
+
        
 
 
@@ -50,6 +68,7 @@ class AllUsers : AppCompatActivity() {
 
 
      mAuth = FirebaseAuth.getInstance()
+
         mDbRef= FirebaseDatabase.getInstance().getReference()
         mDbRef.keepSynced(true)
 
@@ -69,6 +88,7 @@ class AllUsers : AppCompatActivity() {
 
         mDbRef.child("user").addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
+
 
                 userList.clear()
                 for (postSnapshot in snapshot.children){
