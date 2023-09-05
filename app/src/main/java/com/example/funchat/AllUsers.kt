@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,6 +33,26 @@ class AllUsers : AppCompatActivity() {
 
 
 
+        FirebaseApp.initializeApp(this)
+
+        val chatGpt = findViewById<ImageView>(R.id.chatGpt)
+        chatGpt.setOnClickListener{
+            val intent = Intent(this, ChatGpt::class.java)
+            startActivity(intent)
+        }
+
+//        val userProfilePic = findViewById<ImageView>(R.id.userProfilePic)
+//        val currentUserPic = mAuth.currentUser!!.photoUrl.toString()
+//
+//        Glide.with(this)
+//            .load(currentUserPic)
+//            .placeholder(R.drawable.img_4) // Placeholder image while loading
+//            .error(R.drawable.meerkat) // Error image if loading fails
+//            .into(userProfilePic)
+//
+
+
+       
 
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
@@ -46,6 +68,7 @@ class AllUsers : AppCompatActivity() {
 
 
      mAuth = FirebaseAuth.getInstance()
+
         mDbRef= FirebaseDatabase.getInstance().getReference()
         mDbRef.keepSynced(true)
 
@@ -65,6 +88,7 @@ class AllUsers : AppCompatActivity() {
 
         mDbRef.child("user").addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
+
 
                 userList.clear()
                 for (postSnapshot in snapshot.children){

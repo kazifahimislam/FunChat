@@ -13,7 +13,7 @@ android {
         minSdk = 24
         targetSdk = 33
         versionCode = 1
-        versionName = "1.0.5.2"
+        versionName = "1.0.5.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -38,8 +38,11 @@ android {
 
 dependencies {
 
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation("androidx.datastore:datastore-core-android:1.1.0-alpha04")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+
 
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
