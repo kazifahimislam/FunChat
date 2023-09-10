@@ -27,6 +27,7 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>): Recycler
         val currentUser = userList[position]
         holder.textName.text = currentUser.name
 
+
         Glide.with(context)
             .load(currentUser.profilePictureUrl) // Replace with the actual URL
             .placeholder(R.drawable.img_4) // Placeholder image
@@ -42,6 +43,9 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>): Recycler
             intent.putExtra("uid", currentUser.uid)
             intent.putExtra("profilePictureUrl", currentUser.profilePictureUrl)
             intent.putExtra("fcmToken",currentUser.fcmToken)
+
+
+
             context.startActivity(intent)
         }
 
@@ -59,6 +63,9 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>): Recycler
     class UserViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
         val textName = itemView.findViewById<TextView>(R.id.text_name)
+
+        val lastMessage = itemView.findViewById<TextView>(R.id.txtLastMessage)
+
         val profileImageView = itemView.findViewById<ImageView>(R.id.userProfilePic)
 
 

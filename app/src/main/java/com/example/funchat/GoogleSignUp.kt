@@ -2,12 +2,12 @@ package com.example.funchat
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
 import com.google.firebase.messaging.FirebaseMessaging
 
 class GoogleSignUp : AppCompatActivity() {
@@ -59,12 +60,12 @@ class GoogleSignUp : AppCompatActivity() {
         }
     }
 
-    private fun addUserToDatabase(name: String, email: String, uid: String, fcmToken: String , profilePictureUrl: String) {
+    private fun addUserToDatabase(name: String, email: String, uid: String, fcmToken: String, profilePictureUrl: String, timestamp: MutableMap<String, String>) {
 
         mDbRef = FirebaseDatabase.getInstance().getReference()
 
 
-        mDbRef.child("user").child(uid).setValue(User(name, email, uid , fcmToken , profilePictureUrl))
+        mDbRef.child("users").child(uid).setValue(User(name, email, uid , fcmToken , profilePictureUrl,timestamp ))
     }
 
     private fun signInGoogle() {
@@ -112,19 +113,21 @@ class GoogleSignUp : AppCompatActivity() {
                     val name = currentUser?.displayName
                     val email = currentUser?.email
                     val profilePictureUrl = currentUser?.photoUrl.toString()
+                    val timestamp = ServerValue.TIMESTAMP
+
                     val fcmToken = token
 
 
                     // Add user to the database
-                    if (uid != null && name != null && email != null && fcmToken != null && profilePictureUrl != null) {
-                        addUserToDatabase(name, email, uid , fcmToken , profilePictureUrl)
+                    if (uid != null && name != null && email != null && fcmToken != null && profilePictureUrl != null && timestamp !=null) {
+                        addUserToDatabase(name, email, uid , fcmToken , profilePictureUrl, timestamp)
                     }else{
                         Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
 
                     }
 
                     // Start Home activity
-                    val intent = Intent(this, AllUsers::class.java)
+                    val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                     finish()
                     // Log and toast
