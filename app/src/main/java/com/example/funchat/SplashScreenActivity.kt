@@ -2,10 +2,10 @@ package com.example.funchat
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -31,9 +31,9 @@ class SplashScreenActivity : AppCompatActivity() {
 
         val intent = if (currentUser != null) {
             when (lastActivity) {
-                "Home" -> Intent(this, AllUsers::class.java)
+                "Home" -> Intent(this, MainActivity::class.java)
                 // Add more cases for other activities if needed
-                else -> Intent(this, AllUsers::class.java)
+                else -> Intent(this, MainActivity::class.java)
             }
         } else {
             Intent(this, GoogleSignUp::class.java)

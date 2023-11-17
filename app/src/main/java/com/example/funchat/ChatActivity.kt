@@ -114,10 +114,11 @@ class ChatActivity : AppCompatActivity() {
 
 
 
+
         mDbRef.child("chats").child(senderRoom!!).child("messages")
             .addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val initialSize = messageList.size
+
                     messageList.clear()
                     for (postSnapshot in snapshot.children) {
                         val message = postSnapshot.getValue(Message::class.java)
@@ -137,7 +138,8 @@ class ChatActivity : AppCompatActivity() {
 
 
         sendButton.setOnClickListener {
-            val message = messageBox.text.toString().trim() // Trim any leading or trailing spaces
+            val message = messageBox.text.toString().trim()
+
 
             if (message.isNotEmpty()) {
                 val senderUid = FirebaseAuth.getInstance().currentUser!!.uid
@@ -157,10 +159,10 @@ class ChatActivity : AppCompatActivity() {
                     receiverMessageRef.setValue(messageObject).addOnSuccessListener {
                         // If the message is sent successfully, add the chat to recentChats
                         if (receiverUid != null) {
-                            databaseReference.child("user").child(senderUid).child("recentChats").child(receiverUid).setValue(true)
+                            databaseReference.child("users").child(senderUid).child("recentChats").child(receiverUid).setValue(true)
                         }
                         if (receiverUid != null) {
-                            databaseReference.child("user").child(receiverUid).child("recentChats").child(senderUid).setValue(true)
+                            databaseReference.child("users").child(receiverUid).child("recentChats").child(senderUid).setValue(true)
                         }
 
 

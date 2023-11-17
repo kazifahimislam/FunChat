@@ -24,20 +24,6 @@
 
 
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-
-            app:cardCornerRadius="250dp">
-
-            <ImageView
-                android:id="@+id/userProfilePic"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/img_4" />
-
-        </androidx.cardview.widget.CardView>
 
 
 
@@ -78,27 +64,27 @@
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/user_layout" />
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:layout_width="60dp"-->
+<!--        android:layout_height="60dp"-->
 
-        app:cardCornerRadius="250dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.919"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.96">
-        <ImageView
-            android:id="@+id/chatGpt"
-            android:layout_width="70dp"
-            android:layout_height="65dp"
-            android:background="@drawable/img_6"
-            tools:layout_editor_absoluteX="305dp"
-            tools:layout_editor_absoluteY="551dp"
-            android:layout_gravity="center"/>
+<!--        app:cardCornerRadius="250dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.919"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.96">-->
+<!--        <ImageView-->
+<!--            android:id="@+id/chatGpt"-->
+<!--            android:layout_width="70dp"-->
+<!--            android:layout_height="65dp"-->
+<!--            android:background="@drawable/img_6"-->
+<!--            tools:layout_editor_absoluteX="305dp"-->
+<!--            tools:layout_editor_absoluteY="551dp"-->
+<!--            android:layout_gravity="center"/>-->
 
-    </androidx.cardview.widget.CardView>
+<!--    </androidx.cardview.widget.CardView>-->
 
 
 

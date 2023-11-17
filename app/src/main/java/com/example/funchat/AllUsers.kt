@@ -1,12 +1,10 @@
 package com.example.funchat
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,11 +33,11 @@ class AllUsers : AppCompatActivity() {
 
         FirebaseApp.initializeApp(this)
 
-        val chatGpt = findViewById<ImageView>(R.id.chatGpt)
-        chatGpt.setOnClickListener{
-            val intent = Intent(this, ChatGpt::class.java)
-            startActivity(intent)
-        }
+//        val chatGpt = findViewById<ImageView>(R.id.chatGpt)
+//        chatGpt.setOnClickListener{
+//            val intent = Intent(this, ChatGpt::class.java)
+//            startActivity(intent)
+//        }
 
 //        val userProfilePic = findViewById<ImageView>(R.id.userProfilePic)
 //        val currentUserPic = mAuth.currentUser!!.photoUrl.toString()
@@ -86,7 +84,7 @@ class AllUsers : AppCompatActivity() {
             showPopupMenu(logoutImageButton)
         }
 
-        mDbRef.child("user").addValueEventListener(object : ValueEventListener{
+        mDbRef.child("users").addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
 
 
@@ -130,13 +128,7 @@ class AllUsers : AppCompatActivity() {
         popupMenu.show()
     }
 
-    override fun onPause() {
-        super.onPause()
-        val sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        editor.putString("lastActivity", "Home")
-        editor.apply()
-    }
+
 
 
 
