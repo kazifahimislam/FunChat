@@ -9,6 +9,11 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
+import com.example.funchat.R.drawable.envelope
+import com.example.funchat.R.drawable.notificationlogo
+import com.example.funchat.R.drawable.notificationlogo1
+import com.example.funchat.R.drawable.notoficationlogo
 
 class NotificationHelper(private val context: Context) {
 
@@ -20,13 +25,14 @@ class NotificationHelper(private val context: Context) {
     // Function to create and show a notification with a custom icon
     fun showNotification(messageTitle: String?, messageBody: String?) {
         // Set the custom icon for the notification
-        val customIcon = R.drawable.notificationlogo
+        val customIcon = notificationlogo1
 
         // Build the notification
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(customIcon)  // Set your custom icon here
-//            .setContentTitle("Your Notification Title")
-//            .setContentText("Your Notification Text")
+            .setSmallIcon(customIcon)
+            .setColor(ContextCompat.getColor(context,R.color.applogo))// Set your custom icon here
+            .setContentTitle("Welcome to FunChat")
+            .setContentText("Testing notification")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         // Show the notification
