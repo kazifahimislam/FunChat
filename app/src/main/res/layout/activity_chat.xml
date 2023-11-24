@@ -88,10 +88,16 @@
             android:layout_alignParentBottom="true"
 
             >
+            <ImageButton
+                android:id="@+id/sendImage"
+                android:layout_marginTop="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/cameraicon"/>
             <EditText
                 android:layout_marginTop="15dp"
                 android:id="@+id/messageBox"
-                android:layout_marginLeft="15dp"
+
                 android:layout_marginBottom="15dp"
                 android:layout_width="wrap_content"
                 android:background="@drawable/chat_edit_text_background"

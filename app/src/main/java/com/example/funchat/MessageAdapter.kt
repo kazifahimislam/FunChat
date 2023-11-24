@@ -4,81 +4,90 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 
-class MessageAdapter(val context : Context, val messageList: ArrayList<Message>): RecyclerView.Adapter<ViewHolder>() {
+class MessageAdapter(val context: Context, val messageList: ArrayList<Message>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val ITEM_RECEIVE = 1;
-    val ITEM_SENT = 2
+    private val ITEM_RECEIVE = 1
+    private val ITEM_SENT = 2
+    private val ITEM_IMAGE = 3
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
 
-        if (viewType ==1 ){
-
-            val view: View = LayoutInflater.from(context).inflate(R.layout.receive, parent,false)
-
-            return ReceiveViewHolder(view)
-
-        }else{
-            val view: View = LayoutInflater.from(context).inflate(R.layout.sent, parent,false)
-            return SentViewHolder(view)
-
+        return when (viewType) {
+            ITEM_SENT -> {
+                val view: View = inflater.inflate(R.layout.sent, parent, false)
+                SentViewHolder(view)
+            }
+            ITEM_RECEIVE -> {
+                val view: View = inflater.inflate(R.layout.receive, parent, false)
+                ReceiveViewHolder(view)
+            }
+            ITEM_IMAGE -> {
+                val view: View = inflater.inflate(R.layout.image_message_item, parent, false)
+                ImageMessageViewHolder(view)
+            }
+            else -> throw IllegalArgumentException("Invalid view type")
         }
-
     }
 
     override fun getItemCount(): Int {
-       return messageList.size
-
+        return messageList.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val currentMessage = messageList[position]
 
-        if(holder.javaClass == SentViewHolder::class.java){
-
-
-
-            val viewHolder = holder as SentViewHolder
-            holder.sentMessage.text = currentMessage.message
-
-        }else{
-            val viewHolder = holder as ReceiveViewHolder
-            holder.receiveMessage.text = currentMessage.message
-//            val lastMessageHolder = holder as LastMessageViewHolder
-//            holder.lastMessage.text = currentMessage.message
-
+        when (holder.itemViewType) {
+            ITEM_SENT -> {
+                val sentViewHolder = holder as SentViewHolder
+                sentViewHolder.sentMessage.text = currentMessage.message
+            }
+            ITEM_RECEIVE -> {
+                val receiveViewHolder = holder as ReceiveViewHolder
+                receiveViewHolder.receiveMessage.text = currentMessage.message
+            }
+            ITEM_IMAGE -> {
+                val imageViewHolder = holder as ImageMessageViewHolder
+                imageViewHolder.bind(currentMessage)
+            }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-       var currentMessage = messageList[position]
+        val currentMessage = messageList[position]
 
-        if(FirebaseAuth.getInstance().currentUser?.uid.equals(currentMessage.senderId)){
-            return ITEM_SENT}
-        else{
-            return ITEM_RECEIVE
+        return if (currentMessage.isImage) {
+            ITEM_IMAGE
+        } else if (FirebaseAuth.getInstance().currentUser?.uid == currentMessage.senderId) {
+            ITEM_SENT
+        } else {
+            ITEM_RECEIVE
         }
     }
 
-    class SentViewHolder(itemView: View) : ViewHolder(itemView){
-
-        val sentMessage = itemView.findViewById<TextView>(R.id.txt_sent_message)
-
+    inner class SentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val sentMessage: TextView = itemView.findViewById(R.id.txt_sent_message)
     }
-    class ReceiveViewHolder(itemView: View) : ViewHolder(itemView){
 
-        val receiveMessage = itemView.findViewById<TextView>(R.id.txt_receive_message)
-
+    inner class ReceiveViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val receiveMessage: TextView = itemView.findViewById(R.id.txt_receive_message)
     }
-//    class LastMessageViewHolder(itemView: View) {
-//
-//        val lastMessage = itemView.findViewById<TextView>(R.id.txtLastMessage)
-//    }
 
+    inner class ImageMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val imageView: ImageView = itemView.findViewById(R.id.imageMessageView)
+
+        fun bind(message: Message) {
+            // Load image using Glide library
+            Glide.with(context)
+                .load(message.message) // Assuming message.message contains the image URL
+                .into(imageView)
+        }
+    }
 }
-

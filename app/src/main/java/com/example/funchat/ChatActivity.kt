@@ -1,11 +1,16 @@
 package com.example.funchat
 
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +23,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.messaging.RemoteMessage
+import com.google.firebase.storage.FirebaseStorage
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaType
@@ -35,24 +42,28 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var messageList: ArrayList<Message>
     private lateinit var mDbRef : DatabaseReference
+    private lateinit var sendImage: ImageView
     private lateinit var imageView: ImageView
+
     private lateinit var textView: TextView
     private var isKeyboardOpen = false
 
     var receiverRoom : String? = null
     var senderRoom : String? = null
+    private val storageReference = FirebaseStorage.getInstance().reference
+    val imagesRef = storageReference.child("images")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+
+        var selectedImageUri: Uri? = null
 
         val displayUserName = intent.getStringExtra("name")
 
         val auth = FirebaseAuth.getInstance()
         val currentUser: FirebaseUser? = auth.currentUser
         val currentUsername = currentUser?.displayName.toString()
-
-
 
         val profilePictureUrl = intent.getStringExtra("profilePictureUrl")
         val profileImageView = findViewById<ImageView>(R.id.userPic)
@@ -70,22 +81,25 @@ class ChatActivity : AppCompatActivity() {
         textView = findViewById(R.id.txtProfile)
 
         imageView.setOnClickListener{
-
-
-
             val intent = Intent(this, OtherUserPic::class.java)
-
-
             intent.putExtra("name", displayUserName)
             intent.putExtra("profilePictureUrl", profilePictureUrl)
-
             startActivity(intent)
+        }
+        sendImage = findViewById(R.id.sendImage)
+        sendImage.setOnClickListener {
+            // PICK INTENT picks item from data
+            // and returned selected item
+            val galleryIntent = Intent(Intent.ACTION_PICK)
+            // here item is type of image
+            galleryIntent.type = "image/*"
+            // ActivityResultLauncher callback
+            imagePickerActivityResult.launch(galleryIntent)
         }
         textView.setOnClickListener{
             val intent = Intent(this, UserProfile::class.java)
             intent.putExtra("name", displayUserName)
             intent.putExtra("profilePictureUrl", profilePictureUrl)
-
             startActivity(intent)
         }
 
@@ -104,120 +118,146 @@ class ChatActivity : AppCompatActivity() {
         messageList = ArrayList()
         messageAdapter = MessageAdapter(this, messageList)
 
-//        chatRecyclerView.smoothScrollToPosition(0)
-
-
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
         chatRecyclerView.adapter = messageAdapter
 
         val layoutManager = chatRecyclerView.layoutManager as LinearLayoutManager
 
-
-
-
         mDbRef.child("chats").child(senderRoom!!).child("messages")
             .addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-
                     messageList.clear()
                     for (postSnapshot in snapshot.children) {
                         val message = postSnapshot.getValue(Message::class.java)
                         messageList.add(message!!)
                     }
                     messageAdapter.notifyDataSetChanged()
-
-
-                        val lastItemPosition = messageList.size - 1
-                        layoutManager.scrollToPositionWithOffset(lastItemPosition, 0)
-
+                    val lastItemPosition = messageList.size - 1
+                    layoutManager.scrollToPositionWithOffset(lastItemPosition, 0)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
 
-
         sendButton.setOnClickListener {
             val message = messageBox.text.toString().trim()
-
 
             if (message.isNotEmpty()) {
                 val senderUid = FirebaseAuth.getInstance().currentUser!!.uid
                 val receiverUid = intent.getStringExtra("uid")
 
-                val messageObject = Message(message, senderUid)
+                val messageObject = Message(message, senderUid, false)
 
-                // Reference to the Firebase Realtime Database
                 val databaseReference = FirebaseDatabase.getInstance().reference
 
-                // Push the message to the "messages" node
                 val senderMessageRef = databaseReference.child("chats").child(senderRoom!!).child("messages").push()
                 val receiverMessageRef = databaseReference.child("chats").child(receiverRoom!!).child("messages").push()
 
-                // Set the message content
                 senderMessageRef.setValue(messageObject).addOnSuccessListener {
                     receiverMessageRef.setValue(messageObject).addOnSuccessListener {
-                        // If the message is sent successfully, add the chat to recentChats
                         if (receiverUid != null) {
                             databaseReference.child("users").child(senderUid).child("recentChats").child(receiverUid).setValue(true)
                         }
                         if (receiverUid != null) {
                             databaseReference.child("users").child(receiverUid).child("recentChats").child(senderUid).setValue(true)
                         }
-
-
                     }
                 }
-                sendNotificationToReceiver("$fcmToken","$currentUsername", "$message" )
+                sendNotificationToReceiver("$fcmToken", currentUsername, message,"$profilePictureUrl")
 
                 messageBox.setText("")
             } else {
                 // Handle the case where the message is empty, e.g., show an error message to the user
-                // You can display a toast or a Snackbar to inform the user that the message is empty.
             }
         }
     }
-    fun sendNotificationToReceiver(userToken: String, title: String, body: String) {
-        // Replace with your Firebase Cloud Messaging Server Key
+
+    private fun sendNotificationToReceiver(userToken: String, title: String, body: String, profilePictureUrl:String) {
         val serverKey = "AAAAus_OMzs:APA91bFnC2TftpSTiZggKnKojj2YGKlSWkMMNer1MpBC_CLEitKQcPqpjcEPls-nnRo0TvAdsZnHInN2hyS7lJ0pletKgZa6QfIUg52v0duhnxZJwIO3kc4diOEJwlJyE60Tes-fWWe5"
-
-        // Define the content type
         val contentType = "application/json; charset=utf-8".toMediaType()
-
-        // Create a JSON payload for the notification
         val json = """
     {
         "to": "$userToken",
         "notification": {
             "title": "$title",
-            "body": "$body"
+            "body": "$body",
+            "profilePictureUrl": "$profilePictureUrl"
         }
     }
     """.trimIndent()
 
-        // Create an HTTP request
         val request = Request.Builder()
             .url("https://fcm.googleapis.com/fcm/send")
             .post(json.toRequestBody(contentType))
             .addHeader("Authorization", "key=$serverKey")
             .build()
 
-        // Create an OkHttpClient to execute the request
         val client = OkHttpClient()
 
-        // Enqueue the request for asynchronous execution
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                // Handle the failure to send the notification
-                // You can log or display an error message
                 e.printStackTrace()
             }
 
             override fun onResponse(call: Call, response: Response) {
-                // Handle the response from the FCM server
-                // This block is called when the response is received
-                // You can add further handling if needed
             }
         })
+    }
+
+    private var imagePickerActivityResult: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result != null) {
+                val imageUri: Uri? = result.data?.data
+                val sd = getFileName(applicationContext, imageUri!!)
+                val uploadTask = imagesRef.child("file/$sd").putFile(imageUri)
+
+                uploadTask.addOnSuccessListener {
+                    imagesRef.child("file/$sd").downloadUrl.addOnSuccessListener {
+                        sendMessageWithImage(it.toString())
+                    }.addOnFailureListener {
+                        Log.e("Firebase", "Failed in downloading")
+                    }
+                }.addOnFailureListener {
+                    Log.e("Firebase", "Image Upload fail")
+                }
+            }
+        }
+
+    private fun sendMessageWithImage(imageUrl: String) {
+        val senderUid = FirebaseAuth.getInstance().currentUser!!.uid
+        val receiverUid = intent.getStringExtra("uid")
+
+        val messageObject = Message(imageUrl, senderUid, isImage = true)
+
+        val databaseReference = FirebaseDatabase.getInstance().reference
+
+        val senderMessageRef = databaseReference.child("chats").child(senderRoom!!).child("messages").push()
+        val receiverMessageRef = databaseReference.child("chats").child(receiverRoom!!).child("messages").push()
+
+        senderMessageRef.setValue(messageObject).addOnSuccessListener {
+            receiverMessageRef.setValue(messageObject).addOnSuccessListener {
+                if (receiverUid != null) {
+                    databaseReference.child("users").child(senderUid).child("recentChats").child(receiverUid).setValue(true)
+                }
+                if (receiverUid != null) {
+                    databaseReference.child("users").child(receiverUid).child("recentChats").child(senderUid).setValue(true)
+                }
+            }
+        }
+    }
+
+
+    private fun getFileName(context: Context, uri: Uri): String? {
+        if (uri.scheme == "content") {
+            val cursor = context.contentResolver.query(uri, null, null, null, null)
+            cursor.use {
+                if (cursor != null) {
+                    if(cursor.moveToFirst()) {
+                    }
+                }
+            }
+        }
+        return uri.path?.lastIndexOf('/')?.let { uri.path?.substring(it) }
     }
 }
