@@ -1,6 +1,7 @@
 package com.example.funchat
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,12 +62,17 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>) 
             ITEM_IMAGE_RECEIVE -> {
                 val imageViewHolder = holder as ImageMessageViewHolder
                 imageViewHolder.bind(currentMessage)
+
+
             }
             ITEM_IMAGE_SEND -> {
                 val imageViewHolder = holder as ImageSentViewHolder
                 imageViewHolder.bind(currentMessage)
             }
+
         }
+
+
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -104,6 +110,14 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>) 
             Glide.with(context)
                 .load(message.message) // Assuming message.message contains the image URL
                 .into(imageView)
+
+
+            imageView.setOnClickListener {
+                // Handle click event here, for example, open a new activity to show the image in full screen
+                val intent = Intent(context, FullScreenImageActivity::class.java)
+                intent.putExtra("imageUrl", message.message)
+                context.startActivity(intent)
+            }
         }
     }
     inner class ImageSentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -114,6 +128,14 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>) 
             Glide.with(context)
                 .load(message.message) // Assuming message.message contains the image URL
                 .into(imageView)
+
+            imageView.setOnClickListener {
+                // Handle click event here, for example, open a new activity to show the image in full screen
+                val intent = Intent(context, FullScreenImageActivity::class.java)
+                intent.putExtra("imageUrl", message.message)
+                context.startActivity(intent)
+            }
         }
+
     }
 }

@@ -232,8 +232,8 @@ class ChatActivity : AppCompatActivity() {
 
         val databaseReference = FirebaseDatabase.getInstance().reference
 
-        val senderMessageRef = databaseReference.child("chats").child(senderRoom!!).child("images").push()
-        val receiverMessageRef = databaseReference.child("chats").child(receiverRoom!!).child("images").push()
+        val senderMessageRef = databaseReference.child("chats").child(senderRoom!!).child("messages").push()
+        val receiverMessageRef = databaseReference.child("chats").child(receiverRoom!!).child("messages").push()
 
         senderMessageRef.setValue(messageObject).addOnSuccessListener {
             receiverMessageRef.setValue(messageObject).addOnSuccessListener {
