@@ -15,7 +15,8 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>) 
 
     private val ITEM_RECEIVE = 1
     private val ITEM_SENT = 2
-    private val ITEM_IMAGE = 3
+    private val ITEM_IMAGE_RECEIVE = 3
+    private val ITEM_IMAGE_SEND = 4
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -29,9 +30,13 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>) 
                 val view: View = inflater.inflate(R.layout.receive, parent, false)
                 ReceiveViewHolder(view)
             }
-            ITEM_IMAGE -> {
+            ITEM_IMAGE_RECEIVE -> {
                 val view: View = inflater.inflate(R.layout.image_message_item, parent, false)
                 ImageMessageViewHolder(view)
+            }
+            ITEM_IMAGE_SEND -> {
+                val view: View = inflater.inflate(R.layout.image_sent, parent, false)
+                ImageSentViewHolder(view)
             }
             else -> throw IllegalArgumentException("Invalid view type")
         }
@@ -53,8 +58,12 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>) 
                 val receiveViewHolder = holder as ReceiveViewHolder
                 receiveViewHolder.receiveMessage.text = currentMessage.message
             }
-            ITEM_IMAGE -> {
+            ITEM_IMAGE_RECEIVE -> {
                 val imageViewHolder = holder as ImageMessageViewHolder
+                imageViewHolder.bind(currentMessage)
+            }
+            ITEM_IMAGE_SEND -> {
+                val imageViewHolder = holder as ImageSentViewHolder
                 imageViewHolder.bind(currentMessage)
             }
         }
@@ -64,8 +73,15 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>) 
         val currentMessage = messageList[position]
 
         return if (currentMessage.isImage) {
-            ITEM_IMAGE
-        } else if (FirebaseAuth.getInstance().currentUser?.uid == currentMessage.senderId) {
+            if (FirebaseAuth.getInstance().currentUser?.uid == currentMessage.senderId) {
+                ITEM_IMAGE_SEND
+            }else {
+                ITEM_IMAGE_RECEIVE
+            }
+
+        }
+
+        else if (FirebaseAuth.getInstance().currentUser?.uid == currentMessage.senderId) {
             ITEM_SENT
         } else {
             ITEM_RECEIVE
@@ -82,6 +98,16 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>) 
 
     inner class ImageMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val imageView: ImageView = itemView.findViewById(R.id.imageMessageView)
+
+        fun bind(message: Message) {
+            // Load image using Glide library
+            Glide.with(context)
+                .load(message.message) // Assuming message.message contains the image URL
+                .into(imageView)
+        }
+    }
+    inner class ImageSentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val imageView: ImageView = itemView.findViewById(R.id.imageReceiveView)
 
         fun bind(message: Message) {
             // Load image using Glide library
