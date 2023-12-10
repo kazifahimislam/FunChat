@@ -33,6 +33,13 @@ class AllUsers : AppCompatActivity() {
 
         FirebaseApp.initializeApp(this)
 
+        val backButton: ImageButton = findViewById(R.id.backButton)
+        backButton.setOnClickListener {
+
+            onBackButtonClicked()
+
+        }
+
 //        val chatGpt = findViewById<ImageView>(R.id.chatGpt)
 //        chatGpt.setOnClickListener{
 //            val intent = Intent(this, ChatGpt::class.java)
@@ -126,6 +133,10 @@ class AllUsers : AppCompatActivity() {
             }
         }
         popupMenu.show()
+    }
+
+    fun onBackButtonClicked() {
+        finish()
     }
 
 

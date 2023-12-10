@@ -20,8 +20,8 @@ import com.google.firebase.database.ValueEventListener
 class MainActivity : AppCompatActivity() {
 
     private lateinit var recentChatsRecyclerView: RecyclerView
-    private lateinit var userList: ArrayList<User>
-    private lateinit var adapter: UserAdapter
+    private lateinit var userList: ArrayList<RecentChats>
+    private lateinit var adapter: RecentChatsAdapter
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mDbRef: DatabaseReference
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         userList = ArrayList()
 
 
-        adapter = UserAdapter(this, userList)
+        adapter = RecentChatsAdapter(this, userList)
 
         recentChatsRecyclerView = findViewById(R.id.recentChatsRecyclerView)
         recentChatsRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                         if (userId != null) {
                             mDbRef.child("users").child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onDataChange(userSnapshot: DataSnapshot) {
-                                    val currentUser = userSnapshot.getValue(User::class.java)
+                                    val currentUser = userSnapshot.getValue(RecentChats::class.java)
                                     if (currentUser != null && mAuth.currentUser?.uid != currentUser.uid) {
                                         userList.add(currentUser)
                                     }

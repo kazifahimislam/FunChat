@@ -14,8 +14,6 @@ class FullScreenImageActivity : AppCompatActivity() {
 
         Glide.with(this)
             .load(profilePictureUrl)
-            .placeholder(R.drawable.img_4) // Placeholder image while loading
-            .error(R.drawable.meerkat) // Error image if loading fails
             .into(profileImageView)
     }
 }
