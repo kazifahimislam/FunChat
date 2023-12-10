@@ -21,6 +21,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" >
 
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/baseline_arrow_back_24"/>
+
         <androidx.cardview.widget.CardView
             android:layout_width="55dp"
             android:layout_height="55dp"
@@ -36,13 +42,15 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                app:cardCornerRadius="250dp">
+                app:cardCornerRadius="250dp"
+                android:background="@color/applogo">
 
                 <ImageView
                     android:id="@+id/userPic"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:scaleType="centerCrop"
+                    android:background="@color/applogo"
                     android:src="@drawable/img_4" />
 
             </androidx.cardview.widget.CardView>
@@ -74,6 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/linearLayout"
+            android:windowSoftInputMode="adjustResize"
 
 
             />
@@ -88,12 +97,36 @@
             android:layout_alignParentBottom="true"
 
             >
-            <ImageButton
-                android:id="@+id/sendImage"
-                android:layout_marginTop="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/cameraicon"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+
+                app:cardCornerRadius="250dp"
+                android:layout_margin="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/email"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.367">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="50dp"
+                    android:layout_height="65dp"
+                    android:layout_gravity="center"
+                    app:cardCornerRadius="250dp">
+
+                    <ImageButton
+                        android:id="@+id/sendImage"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/cameraicon"/>
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.cardview.widget.CardView>
+
             <EditText
                 android:layout_marginTop="15dp"
                 android:id="@+id/messageBox"
@@ -105,19 +138,52 @@
                 android:layout_height="match_parent"
                 android:layout_weight="100"/>
 
-            <Button
-                android:layout_marginTop="15dp"
 
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:backgroundTint="@color/blue"
-                android:text="send"
-                android:textColor="@color/white"
-                android:id="@+id/sendButton"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                />
+            <androidx.cardview.widget.CardView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="5dp"
+                app:cardBackgroundColor="@color/applogo"
+                app:cardCornerRadius="250dp"
+                app:layout_constraintBottom_toTopOf="@+id/email"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.367">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    app:cardCornerRadius="250dp"
+                    >
+
+                    <ImageButton
+                        android:id="@+id/sendButton"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/img_10"
+                        android:background="@color/applogo"/>
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.cardview.widget.CardView>
+
+
+<!--            <Button-->
+<!--                android:layout_marginTop="15dp"-->
+
+<!--                android:layout_marginBottom="15dp"-->
+<!--                android:layout_marginLeft="15dp"-->
+<!--                android:layout_marginRight="15dp"-->
+<!--                android:backgroundTint="@color/blue"-->
+<!--                android:text="send"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:id="@+id/sendButton"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="40dp"-->
+<!--                />-->
 
 
         </LinearLayout>

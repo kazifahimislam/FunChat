@@ -1,12 +1,18 @@
 package com.example.funchat
 
 import android.content.Context
+import android.view.WindowManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+
+
+
+
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
@@ -38,7 +44,7 @@ class ChatActivity : AppCompatActivity() {
 
     private lateinit var chatRecyclerView: RecyclerView
     private lateinit var messageBox: EditText
-    private lateinit var sendButton: Button
+    private lateinit var sendButton: ImageButton
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var messageList: ArrayList<Message>
     private lateinit var mDbRef : DatabaseReference
@@ -46,7 +52,6 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var imageView: ImageView
 
     private lateinit var textView: TextView
-    private var isKeyboardOpen = false
 
     var receiverRoom : String? = null
     var senderRoom : String? = null
@@ -57,7 +62,17 @@ class ChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        var selectedImageUri: Uri? = null
+
+        val backButton: ImageButton = findViewById(R.id.backButton)
+        backButton.setOnClickListener {
+
+            onBackButtonClicked()
+
+        }
+
+
+
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_MODE_CHANGED)
 
         val displayUserName = intent.getStringExtra("name")
 
@@ -123,6 +138,9 @@ class ChatActivity : AppCompatActivity() {
 
         val layoutManager = chatRecyclerView.layoutManager as LinearLayoutManager
 
+
+
+
         mDbRef.child("chats").child(senderRoom!!).child("messages")
             .addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -140,8 +158,10 @@ class ChatActivity : AppCompatActivity() {
                 }
             })
 
+
         sendButton.setOnClickListener {
             val message = messageBox.text.toString().trim()
+
 
             if (message.isNotEmpty()) {
                 val senderUid = FirebaseAuth.getInstance().currentUser!!.uid
@@ -165,6 +185,7 @@ class ChatActivity : AppCompatActivity() {
                     }
                 }
                 sendNotificationToReceiver("$fcmToken", currentUsername, message,"$profilePictureUrl")
+
 
                 messageBox.setText("")
             } else {
@@ -260,4 +281,8 @@ class ChatActivity : AppCompatActivity() {
         }
         return uri.path?.lastIndexOf('/')?.let { uri.path?.substring(it) }
     }
+        fun onBackButtonClicked() {
+            finish()
+        }
+
 }

@@ -10,12 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class RecentChatsAdapter(val context: Context, val userList: ArrayList<User>): RecyclerView.Adapter<RecentChatsAdapter.UserViewHolder>() {
+class RecentChatsAdapter(val context: Context, val userList: ArrayList<RecentChats>): RecyclerView.Adapter<RecentChatsAdapter.UserViewHolder>() {
 
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        val view: View = LayoutInflater.from(context).inflate(R.layout.user_layout, parent,false)
+        val view: View = LayoutInflater.from(context).inflate(R.layout.recent_chat_item, parent,false)
         return UserViewHolder(view)
     }
 
@@ -62,11 +62,11 @@ class RecentChatsAdapter(val context: Context, val userList: ArrayList<User>): R
     }
     class UserViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
-        val textName = itemView.findViewById<TextView>(R.id.text_name)
+        val textName = itemView.findViewById<TextView>(R.id.recentUserName)
 
 
 
-        val profileImageView = itemView.findViewById<ImageView>(R.id.userProfilePic)
+        val profileImageView = itemView.findViewById<ImageView>(R.id.recentUserProfilePic)
 
 
 

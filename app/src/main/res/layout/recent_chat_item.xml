@@ -7,8 +7,9 @@
     >
 
     <LinearLayout
-        android:paddingLeft="15dp"
-        android:layout_margin="10dp"
+
+        android:paddingStart="5dp"
+        android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -49,6 +50,7 @@
             android:layout_margin="20dp"
 
             android:text="HELLO WORLD"
+            android:textStyle="bold"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
