@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.Task
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -65,11 +66,11 @@ class LogInActivity : AppCompatActivity() {
 
 
     }
-    private fun addUserToDatabase(name: String, email: String, uid: String, fcmToken: String , profilePicturUrl: String , timestamp: MutableMap<String, String>){
-
-        mDbRef = FirebaseDatabase.getInstance().reference
-        mDbRef.child("user").child(uid).setValue(User(name,email, uid, fcmToken ,profilePicturUrl , timestamp ))
-    }
+//    private fun addUserToDatabase(name: String, email: String, uid: String, fcmToken: String , profilePicturUrl: String , timestamp: Timestamp){
+//
+//        mDbRef = FirebaseDatabase.getInstance().reference
+//        mDbRef.child("user").child(uid).setValue(User(name,email, uid, fcmToken ,profilePicturUrl , timestamp ))
+//    }
 
 //    private fun signInGoogle() {
 //        val signInIntent = googleSignInClient.signInIntent
