@@ -12,8 +12,8 @@ android {
         applicationId = "com.example.funchat"
         minSdk = 24
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.3.4"
+        versionCode = 2
+        versionName = "1.3.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
