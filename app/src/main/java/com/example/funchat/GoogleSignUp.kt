@@ -18,8 +18,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ServerValue
 import com.google.firebase.messaging.FirebaseMessaging
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class GoogleSignUp : AppCompatActivity() {
 
@@ -60,12 +62,20 @@ class GoogleSignUp : AppCompatActivity() {
         }
     }
 
-    private fun addUserToDatabase(name: String, email: String, uid: String, fcmToken: String, profilePictureUrl: String, timestamp: MutableMap<String, String>) {
+    private fun addUserToDatabase(
+        name: String,
+        email: String,
+        uid: String,
+        fcmToken: String,
+        profilePictureUrl: String,
+        timestamp: String,
+        date: String
+    ) {
 
         mDbRef = FirebaseDatabase.getInstance().getReference()
 
 
-        mDbRef.child("users").child(uid).setValue(User(name, email, uid , fcmToken , profilePictureUrl,timestamp ))
+        mDbRef.child("users").child(uid).setValue(User(name, email, uid , fcmToken , profilePictureUrl,timestamp,date))
     }
 
     private fun signInGoogle() {
@@ -113,14 +123,15 @@ class GoogleSignUp : AppCompatActivity() {
                     val name = currentUser?.displayName
                     val email = currentUser?.email
                     val profilePictureUrl = currentUser?.photoUrl.toString()
-                    val timestamp = ServerValue.TIMESTAMP
+                    val timestamp = getCurrentTime()
+                    val date = getCurrentDate()
 
                     val fcmToken = token
 
 
                     // Add user to the database
-                    if (uid != null && name != null && email != null && fcmToken != null && profilePictureUrl != null && timestamp !=null) {
-                        addUserToDatabase(name, email, uid , fcmToken , profilePictureUrl, timestamp)
+                    if (uid != null && name != null && email != null && fcmToken != null && profilePictureUrl != null && timestamp !=null && date !=null) {
+                        addUserToDatabase(name, email, uid , fcmToken , profilePictureUrl, timestamp, date)
                     }else{
                         Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
 
@@ -138,5 +149,13 @@ class GoogleSignUp : AppCompatActivity() {
                 Toast.makeText(this, authTask.exception.toString(), Toast.LENGTH_SHORT).show()
             }
         }
+    }
+    private fun getCurrentDate(): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return dateFormat.format(Date())
+    }
+    private fun getCurrentTime(): String {
+        val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+        return timeFormat.format(Date())
     }
 }

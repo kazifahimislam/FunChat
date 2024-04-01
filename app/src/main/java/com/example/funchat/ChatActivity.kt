@@ -39,6 +39,9 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class ChatActivity : AppCompatActivity() {
 
@@ -167,7 +170,7 @@ class ChatActivity : AppCompatActivity() {
                 val senderUid = FirebaseAuth.getInstance().currentUser!!.uid
                 val receiverUid = intent.getStringExtra("uid")
 
-                val messageObject = Message(message, senderUid, false)
+                val messageObject = Message(message, senderUid, false,timestamp = getCurrentTime())
 
                 val databaseReference = FirebaseDatabase.getInstance().reference
 
@@ -249,7 +252,7 @@ class ChatActivity : AppCompatActivity() {
         val senderUid = FirebaseAuth.getInstance().currentUser!!.uid
         val receiverUid = intent.getStringExtra("uid")
 
-        val messageObject = Message(imageUrl, senderUid, isImage = true)
+        val messageObject = Message(imageUrl, senderUid, isImage = true,timestamp = null)
 
         val databaseReference = FirebaseDatabase.getInstance().reference
 
@@ -284,5 +287,14 @@ class ChatActivity : AppCompatActivity() {
         fun onBackButtonClicked() {
             finish()
         }
+
+    private fun getCurrentDate(): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return dateFormat.format(Date())
+    }
+    private fun getCurrentTime(): String {
+        val timeFormat = SimpleDateFormat("hh:mm:ss a", Locale.getDefault())
+        return timeFormat.format(Date())
+    }
 
 }
