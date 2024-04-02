@@ -3,11 +3,12 @@ package com.example.funchat
 import android.content.Context
 import android.view.WindowManager
 import android.content.Intent
+import android.content.res.Resources
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-
-
+import android.view.ViewTreeObserver
 
 
 import android.widget.Button
@@ -132,6 +133,8 @@ class ChatActivity : AppCompatActivity() {
 
         chatRecyclerView = findViewById(R.id.chatRecyclerView)
         messageBox = findViewById(R.id.messageBox)
+
+
         sendButton = findViewById(R.id.sendButton)
         messageList = ArrayList()
         messageAdapter = MessageAdapter(this, messageList)
@@ -160,6 +163,46 @@ class ChatActivity : AppCompatActivity() {
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
+
+
+        chatRecyclerView.viewTreeObserver.addOnGlobalLayoutListener(object :
+            ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val r = Rect()
+                // Get the visible bounds of the RecyclerView
+                chatRecyclerView.getWindowVisibleDisplayFrame(r)
+                // Calculate the height difference between the screen height and the visible bounds
+                val screenHeight = chatRecyclerView.rootView.height
+                val heightDifference = screenHeight - (r.bottom - r.top)
+
+                // Assuming a certain threshold for detecting the keyboard (e.g., 100dp)
+                val keyboardHeightThreshold = 100.dpToPx() // Convert 100dp to pixels
+                // If the height difference is greater than the threshold, the keyboard is likely open
+                val isKeyboardOpen = heightDifference > keyboardHeightThreshold
+
+                // If the keyboard is open, refresh the RecyclerView
+                if (isKeyboardOpen) {
+                    // Call your method to refresh the RecyclerView here
+                    mDbRef.child("chats").child(senderRoom!!).child("messages")
+                        .addValueEventListener(object: ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                messageList.clear()
+                                for (postSnapshot in snapshot.children) {
+                                    val message = postSnapshot.getValue(Message::class.java)
+                                    messageList.add(message!!)
+                                }
+                                messageAdapter.notifyDataSetChanged()
+                                val lastItemPosition = messageList.size - 1
+                                layoutManager.scrollToPositionWithOffset(lastItemPosition, 0)
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                            }
+                        })
+
+                }
+            }
+        })
 
 
         sendButton.setOnClickListener {
@@ -295,6 +338,9 @@ class ChatActivity : AppCompatActivity() {
     private fun getCurrentTime(): String {
         val timeFormat = SimpleDateFormat("hh:mm:ss a", Locale.getDefault())
         return timeFormat.format(Date())
+    }
+    private fun Int.dpToPx(): Int {
+        return (this * Resources.getSystem().displayMetrics.density).toInt()
     }
 
 }

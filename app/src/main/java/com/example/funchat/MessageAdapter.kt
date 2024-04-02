@@ -59,6 +59,7 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>) 
             ITEM_RECEIVE -> {
                 val receiveViewHolder = holder as ReceiveViewHolder
                 receiveViewHolder.receiveMessage.text = currentMessage.message
+                receiveViewHolder.receiveTime.text = currentMessage.timestamp
             }
             ITEM_IMAGE_RECEIVE -> {
                 val imageViewHolder = holder as ImageMessageViewHolder
@@ -102,6 +103,7 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>) 
 
     inner class ReceiveViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val receiveMessage: TextView = itemView.findViewById(R.id.txt_receive_message)
+        val receiveTime : TextView = itemView.findViewById(R.id.receiveMessageTime)
     }
 
     inner class ImageMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
