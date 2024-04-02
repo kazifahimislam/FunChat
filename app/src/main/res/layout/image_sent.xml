@@ -16,7 +16,7 @@
 
 
 
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.942"
@@ -29,6 +29,12 @@
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:background="@drawable/send_message_background"/>
+        <TextView
+            android:id="@+id/imageReceiveTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time"
+            android:textSize="10sp"/>
     </LinearLayout>
 
 

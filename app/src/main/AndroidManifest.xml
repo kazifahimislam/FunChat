@@ -20,6 +20,9 @@
         android:theme="@style/Theme.FunChat"
         tools:targetApi="31">
         <activity
+            android:name=".CurrentUserProfile"
+            android:exported="false" />
+        <activity
             android:name=".FullScreenImageActivity"
             android:exported="false" />
         <activity
@@ -39,9 +42,9 @@
             android:exported="false" />
         <activity
             android:name=".ChatActivity"
-            android:windowSoftInputMode="adjustResize"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".SplashScreenActivity"
             android:exported="true">

@@ -29,7 +29,7 @@
             app:cardCornerRadius="250dp">
 
             <ImageView
-                android:id="@+id/userProfilePic"
+                android:id="@+id/currentUserProfilePic"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="centerCrop"

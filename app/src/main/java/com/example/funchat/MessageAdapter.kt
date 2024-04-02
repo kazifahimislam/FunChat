@@ -66,10 +66,12 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>) 
                 imageViewHolder.bind(currentMessage)
 
 
+
             }
             ITEM_IMAGE_SEND -> {
                 val imageViewHolder = holder as ImageSentViewHolder
                 imageViewHolder.bind(currentMessage)
+
             }
 
         }
@@ -108,6 +110,7 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>) 
 
     inner class ImageMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val imageView: ImageView = itemView.findViewById(R.id.imageMessageView)
+        private val imageMessageTime : TextView = itemView.findViewById(R.id.imageMessageTime)
 
         fun bind(message: Message) {
             // Load image using Glide library
@@ -115,6 +118,8 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>) 
                 .load(message.message) // Assuming message.message contains the image URL
                 .into(imageView)
 
+
+            imageMessageTime.text = message.timestamp
 
             imageView.setOnClickListener {
                 // Handle click event here, for example, open a new activity to show the image in full screen
@@ -126,12 +131,15 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>) 
     }
     inner class ImageSentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val imageView: ImageView = itemView.findViewById(R.id.imageReceiveView)
+        private val imageReceiveTime : TextView = itemView.findViewById(R.id.imageReceiveTime)
 
         fun bind(message: Message) {
             // Load image using Glide library
             Glide.with(context)
                 .load(message.message) // Assuming message.message contains the image URL
                 .into(imageView)
+
+            imageReceiveTime.text = message.timestamp
 
             imageView.setOnClickListener {
                 // Handle click event here, for example, open a new activity to show the image in full screen
