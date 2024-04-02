@@ -5,10 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -36,6 +38,41 @@ class MainActivity : AppCompatActivity() {
 
         val allUsers = findViewById<ImageButton>(R.id.allUsers)
 
+        val currentUserProfilePic = findViewById<ImageView>(R.id.currentUserProfilePic)
+
+        // Get a reference to the ImageView
+
+
+// Get the current user's UID
+        val uid = FirebaseAuth.getInstance().currentUser?.uid
+
+// Get a reference to the current user's profile picture URL in the database
+        val profilePicRef = FirebaseDatabase.getInstance().getReference("users/$uid/profilePictureUrl")
+
+// Attach a listener to read the data from the database
+        profilePicRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Get the profile picture URL from the database
+                val profilePicUrl = dataSnapshot.getValue(String::class.java)
+
+                // Load the profile picture using Glide or any other image loading library
+                Glide.with(this@MainActivity)
+                    .load(profilePicUrl)
+                    .placeholder(R.drawable.meerkat) // Placeholder image while loading
+                    .error(R.drawable.meerkat) // Error image if loading fails
+                    .into(currentUserProfilePic)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle error
+            }
+        })
+
+
+        currentUserProfilePic.setOnClickListener{
+            val intent = Intent(this, CurrentUserProfile::class.java)
+            startActivity(intent)
+        }
 
         allUsers.setOnClickListener {
             val intent = Intent(this, AllUsers::class.java)

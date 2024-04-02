@@ -12,8 +12,8 @@ android {
         applicationId = "com.example.funchat"
         minSdk = 24
         targetSdk = 33
-        versionCode = 3
-        versionName = "1.3.6"
+        versionCode = 4
+        versionName = "1.3.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,6 +43,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:20.3.0")
     implementation("com.google.firebase:firebase-messaging:23.3.1")
     implementation("com.google.firebase:firebase-inappmessaging-display:20.4.0")
+    implementation("androidx.activity:activity:1.8.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
 

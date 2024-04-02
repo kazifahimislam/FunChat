@@ -1,6 +1,7 @@
 package com.example.funchat
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -58,6 +59,11 @@ class GoogleSignUp : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         findViewById<Button>(R.id.googleAuthentication).setOnClickListener {
+            val progressDialog = ProgressDialog(this@GoogleSignUp)
+            progressDialog.setMessage("Logging in...")
+            progressDialog.setCancelable(false) // Prevents user from cancelling the dialog
+
+            progressDialog.show()
             signInGoogle()
         }
     }
@@ -158,4 +164,5 @@ class GoogleSignUp : AppCompatActivity() {
         val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
         return timeFormat.format(Date())
     }
+
 }
