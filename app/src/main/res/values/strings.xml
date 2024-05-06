@@ -2,5 +2,6 @@
     <string name="app_name">Fun Chat</string>
     <string name="default_notification_channel_id">default_channel</string>
     <string name="msg_token_fmt" />
+    <string name="todo">TODO</string>
 
 </resources>

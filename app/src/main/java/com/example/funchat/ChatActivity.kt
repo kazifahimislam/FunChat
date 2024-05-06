@@ -336,7 +336,7 @@ class ChatActivity : AppCompatActivity() {
         return dateFormat.format(Date())
     }
     private fun getCurrentTime(): String {
-        val timeFormat = SimpleDateFormat("hh:mm:ss a", Locale.getDefault())
+        val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
         return timeFormat.format(Date())
     }
     private fun Int.dpToPx(): Int {

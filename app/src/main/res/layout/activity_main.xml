@@ -9,7 +9,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/blue"
+
         android:elevation="4dp"
 
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
@@ -47,8 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recent Chats"
-            android:textColor="@color/white"
-            android:textStyle="bold"
+
+
             android:textSize="20sp"
             />
 
@@ -57,7 +57,7 @@
             android:layout_width="26dp"
             android:layout_height="26dp"
             android:layout_marginRight="15dp"
-            android:background="@drawable/img_2"
+            android:background="@drawable/dots"
             android:layout_gravity="right"/>
 
 
@@ -71,31 +71,18 @@
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.119" />
+        app:layout_constraintVertical_bias="0.106" />
 
 
-
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-
-        app:cardCornerRadius="250dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.876"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.929">
-
-        <ImageButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/allUsers"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/pen"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.905"
@@ -104,7 +91,9 @@
             app:layout_constraintVertical_bias="0.919" />
 
 
-    </androidx.cardview.widget.CardView>
+
+
+
 
 
 
