@@ -50,7 +50,7 @@
             android:layout_margin="20dp"
 
             android:text="HELLO WORLD"
-            android:textStyle="bold"
+
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

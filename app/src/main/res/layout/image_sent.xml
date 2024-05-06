@@ -27,7 +27,7 @@
         <ImageView
             android:id="@+id/imageReceiveView"
             android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/send_message_background"/>
         <TextView
             android:id="@+id/imageReceiveTime"

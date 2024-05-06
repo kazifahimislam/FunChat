@@ -29,7 +29,7 @@
         <ImageView
             android:id="@+id/imageMessageView"
             android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/receive_message_background"/>
         <TextView
             android:id="@+id/imageMessageTime"
