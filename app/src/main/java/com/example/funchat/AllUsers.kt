@@ -9,6 +9,7 @@ import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -39,25 +40,6 @@ class AllUsers : AppCompatActivity() {
             onBackButtonClicked()
 
         }
-
-//        val chatGpt = findViewById<ImageView>(R.id.chatGpt)
-//        chatGpt.setOnClickListener{
-//            val intent = Intent(this, ChatGpt::class.java)
-//            startActivity(intent)
-//        }
-
-//        val userProfilePic = findViewById<ImageView>(R.id.userProfilePic)
-//        val currentUserPic = mAuth.currentUser!!.photoUrl.toString()
-//
-//        Glide.with(this)
-//            .load(currentUserPic)
-//            .placeholder(R.drawable.img_4) // Placeholder image while loading
-//            .error(R.drawable.meerkat) // Error image if loading fails
-//            .into(userProfilePic)
-//
-
-
-       
 
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
@@ -115,6 +97,11 @@ class AllUsers : AppCompatActivity() {
 
             }
         })
+//        val account = GoogleSignIn.getLastSignedInAccount(this)
+//        if (account != null) {
+//            // Retrieve Google contacts
+//            retrieveGoogleContacts(account)
+//        }
 
 
     }
@@ -138,6 +125,7 @@ class AllUsers : AppCompatActivity() {
     fun onBackButtonClicked() {
         finish()
     }
+
 
 
 
